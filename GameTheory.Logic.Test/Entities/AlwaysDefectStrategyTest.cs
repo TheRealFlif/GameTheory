@@ -7,7 +7,7 @@ internal class AlwaysDefectStrategyTest
     public void Next_Cooperate_ReturnsDefect()
     {
         //Arrange
-        var sut = new AlwaysDefectStrategy();
+        var sut = new AlwaysDefectStrategy("AlwaysDefectStrategy");
 
         //Act
         var actual = sut.Next(Choice.Cooperate);
@@ -20,7 +20,7 @@ internal class AlwaysDefectStrategyTest
     public void Next_Defect_ReturnsDefect()
     {
         //Arrange
-        var sut = new AlwaysDefectStrategy();
+        var sut = new AlwaysDefectStrategy("AlwaysDefectStrategy");
 
         //Act
         var actual = sut.Next(Choice.Defect);

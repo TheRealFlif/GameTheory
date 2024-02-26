@@ -2,5 +2,10 @@
 
 internal interface IStrategy
 {
-    public  Choice Next(Choice opponentPreviousChoice);
+    public string Name { get; }
+
+    public Guid Id { get; }
+
+    public Choice Next(Choice opponentPreviousChoice);
+
 }

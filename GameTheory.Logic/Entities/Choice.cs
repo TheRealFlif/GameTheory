@@ -3,6 +3,7 @@
 [Flags]
 internal enum Choice
 {
-    Cooperate = 1 << 0,
-    Defect = 1 << 1
+    Start = 1 << 0,
+    Cooperate = 1 << 1,
+    Defect = 1 << 2
 }

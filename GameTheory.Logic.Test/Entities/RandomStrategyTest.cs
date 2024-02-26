@@ -7,7 +7,7 @@ public class RandomStrategyTest
     public void Next_()
     {
         //Arrange
-        var sut = new RandomStrategy();
+        var sut = new RandomStrategy("RandomStrategy");
 
         //Act
         const int size = 10000;

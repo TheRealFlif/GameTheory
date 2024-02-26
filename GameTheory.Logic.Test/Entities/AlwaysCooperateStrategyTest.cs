@@ -7,7 +7,8 @@ internal class AlwaysCooperateStrategyTest
     public void Next_Defect_ReturnsCooperate()
     {
         //Arrange
-        var sut = new AlwaysCooperateStrategy();
+        var sut = new AlwaysCooperateStrategy("AlwaysCooperateStrategy");
+        var res = new Result(Choice.Defect, Choice.Cooperate);
 
         //Act
         var actual = sut.Next(Choice.Defect);
@@ -20,7 +21,7 @@ internal class AlwaysCooperateStrategyTest
     public void Next_Cooperate_ReturnsCooperate()
     {
         //Arrange
-        var sut = new AlwaysCooperateStrategy();
+        var sut = new AlwaysCooperateStrategy("AlwaysCooperateStrategy");
 
         //Act
         var actual = sut.Next(Choice.Cooperate);
