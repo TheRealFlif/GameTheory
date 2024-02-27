@@ -4,8 +4,8 @@ namespace GameTheory.Logic.Providers;
 
 internal class ArgsParser
 {
-    public Settings Parse(string[] args)
+    public static Settings Parse(string[] args)
     {
-        return new Settings(10, 1000);
+        return new Settings(100, 1000);
     }
 }
