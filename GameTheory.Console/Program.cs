@@ -7,7 +7,21 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        var settings = ArgsParser.Parse(args);
+        Settings? settings = null;
+        try
+        {
+            settings = ArgsParser.Parse(args);
+        }
+        catch
+        {
+            System.Console.WriteLine(ArgsParser.HelpMessage);
+            Environment.Exit(1);
+        }
+        if (settings == null) {
+            System.Console.WriteLine(ArgsParser.HelpMessage);
+            Environment.Exit(1);
+        }
+
         var loader = new StrategyLoader();
         var strategies = loader.Load("GameTheory.Logic");
 

@@ -33,10 +33,10 @@ internal class Results : IEnumerable<Result>
     {
         var lookup = new Dictionary<Tuple<Choice, Choice>, int>
             {
-                { new Tuple<Choice, Choice>(Choice.Cooperate, Choice.Cooperate), settings.Reward },
-                { new Tuple<Choice, Choice>(Choice.Defect, Choice.Cooperate), settings.Temptation },
-                { new Tuple<Choice, Choice>(Choice.Cooperate, Choice.Defect), settings.SuckerReward },
-                { new Tuple<Choice, Choice>(Choice.Defect, Choice.Defect), settings.Penalty }
+                { new Tuple<Choice, Choice>(Choice.Cooperate, Choice.Cooperate), settings.RewardMatrix.Reward },
+                { new Tuple<Choice, Choice>(Choice.Defect, Choice.Cooperate), settings.RewardMatrix.Temptation },
+                { new Tuple<Choice, Choice>(Choice.Cooperate, Choice.Defect), settings.RewardMatrix.SuckerReward },
+                { new Tuple<Choice, Choice>(Choice.Defect, Choice.Defect), settings.RewardMatrix.Penalty }
             };
 
         StrategyOneScore = _results.Sum(result => lookup[new(result.Value.StrategyOneChoice, result.Value.StrategyTwoChoice)]);
