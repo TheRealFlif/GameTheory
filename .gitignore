@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/GameTheory/.cr/personal/FavoritesList/List.xml

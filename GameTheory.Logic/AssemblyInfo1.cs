@@ -17,3 +17,4 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("8d824c73-cabf-4cfa-89e7-1156ca30bf95")]
 [assembly: InternalsVisibleTo("GameTheory.Logic.Test", AllInternalsVisible = true)]
+[assembly: InternalsVisibleTo("GameTheory.Console", AllInternalsVisible = true)]
