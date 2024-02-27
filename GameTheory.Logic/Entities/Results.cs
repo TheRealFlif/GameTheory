@@ -4,7 +4,7 @@ namespace GameTheory.Logic.Entities;
 
 internal class Results : IEnumerable<Result>
 {
-    private Dictionary<int, Result> _results = [];
+    private readonly Dictionary<int, Result> _results = [];
 
     public IEnumerator<Result> GetEnumerator()
     {
@@ -18,7 +18,7 @@ internal class Results : IEnumerable<Result>
 
     internal void AddResult(Result result)
     {
-        _results.Add(_results.Count() + 1, result);
+        _results.Add(_results.Count + 1, result);
     }
 
     internal Result[] OrderedResult()

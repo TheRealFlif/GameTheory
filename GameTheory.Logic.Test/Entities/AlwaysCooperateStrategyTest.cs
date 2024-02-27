@@ -8,7 +8,6 @@ internal class AlwaysCooperateStrategyTest
     {
         //Arrange
         var sut = new AlwaysCooperateStrategy("AlwaysCooperateStrategy");
-        var res = new Result(Choice.Defect, Choice.Cooperate);
 
         //Act
         var actual = sut.Next(Choice.Defect);

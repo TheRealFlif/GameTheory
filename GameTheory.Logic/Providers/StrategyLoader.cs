@@ -10,16 +10,22 @@ internal class StrategyLoader
             .GetTypes()
             .Where(t => ((System.Reflection.TypeInfo)t).ImplementedInterfaces.Select(i => i.Name).Contains("IStrategy"));
 
-        IStrategy[] returnValue = [];
+        List<IStrategy> returnValue = [];
         try
         {
-            returnValue = types.Select(y => y.GetConstructors().First().Invoke(new[] { y.Name }) as IStrategy).ToArray();
+            foreach (var constructorInfo in types.Select(y => y.GetConstructors().First()))
+            {
+                if (constructorInfo.Invoke(new[] { constructorInfo.Name }) is IStrategy strategy)
+                {
+                    returnValue.Add(strategy);
+                }
+            }
         }
         catch
         {
             returnValue = [];
         }
 
-        return returnValue;
+        return [.. returnValue];
     }
 }

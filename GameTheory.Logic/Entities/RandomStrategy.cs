@@ -1,19 +1,10 @@
 ﻿namespace GameTheory.Logic.Entities;
 
-internal class RandomStrategy : IStrategy
+internal class RandomStrategy(string name) : StrategyBase(name)
 {
-    public RandomStrategy(string name)
-    {
-        Name = name;
-        Id = Guid.NewGuid();
-    }
-    private Random _rand = new Random();
+    private readonly Random _rand = new ();
 
-    public string Name { get; init; }
-
-    public Guid Id { get; init; }
-
-    public Choice Next(Choice opponentPreviousChoice)
+    public override Choice Next(Choice opponentPreviousChoice)
     {
         return _rand.Next(0, 2) == 0
                 ? Choice.Cooperate
