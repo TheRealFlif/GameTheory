@@ -2,30 +2,20 @@
 
 using GameTheory.Logic.Entities;
 using GameTheory.Logic.Providers;
+using System.Text;
 
 internal class Program
 {
+
     static void Main(string[] args)
     {
-        Settings? settings = null;
-        try
-        {
-            settings = ArgsParser.Parse(args);
-        }
-        catch
-        {
-            System.Console.WriteLine(ArgsParser.HelpMessage);
-            Environment.Exit(1);
-        }
-        if (settings == null) {
-            System.Console.WriteLine(ArgsParser.HelpMessage);
-            Environment.Exit(1);
-        }
+        var settings = ParseArguments(args);
+        var runner = new Runner(settings);
 
         var loader = new StrategyLoader();
         var strategies = loader.Load("GameTheory.Logic");
 
-        var total = RunAllGameRounds(settings, strategies);
+        var total = RunAllGameRounds(runner, strategies);
 
         System.Console.WriteLine(settings);
         foreach (var totalResultForStrategy in total.OrderByDescending(kvp => kvp.Value))
@@ -34,33 +24,46 @@ internal class Program
         }
     }
 
-    private static Dictionary<string, int> RunAllGameRounds(Settings settings, IStrategy[] strategies)
+    private static Settings ParseArguments(string[] args)
     {
-        var returnValue = new Dictionary<string, int>();
-        var runner = new Runner(settings);
-        var runResults = new List<RunResult>();
-        for (int i = 0; i < strategies.Length; i++)
+        Settings? returnValue = null;
+        try
         {
-            for (int j = i; j < strategies.Length; j++)
-            {
-                if (strategies[i].Id != strategies[j].Id)
-                {
-                    var runResult = runner.Go(strategies[i], strategies[j]);
-                    System.Console.WriteLine(runResult);
-                    runResults.Add(runResult);
-                    var oneKey = $"{strategies[i].Name}_{strategies[i].Id}";
-                    var twoKey = $"{strategies[j].Name}_{strategies[j].Id}";
-                    if (!returnValue.TryGetValue(oneKey, out var resultOne))
-                    { resultOne = 0; }
-                    if (!returnValue.TryGetValue(twoKey, out var resultTwo))
-                    { resultTwo = 0; }
-
-                    returnValue[oneKey] = resultOne + runResult.Results.Sum(r => r.StrategyOneScore);
-                    returnValue[twoKey] = resultTwo + runResult.Results.Sum(r => r.StrategyTwoScore);
-                }
-            }
+            returnValue = ArgsParser.Parse(args);
+        }
+        catch
+        {
+            System.Console.WriteLine(ArgsParser.HelpMessage);
+            Environment.Exit(1);
+        }
+        if (returnValue == null)
+        {
+            System.Console.WriteLine(ArgsParser.HelpMessage);
+            Environment.Exit(1);
         }
 
+        return returnValue;
+    }
+
+    private static Dictionary<IStrategy, int> RunAllGameRounds(Runner runner, IStrategy[] strategies)
+    {
+        var returnValue = new Dictionary<IStrategy, int>();
+        for (int i = 0; i < strategies.Length; i++)
+        {
+            for (int j = i + 1; j < strategies.Length; j++)
+            {
+                if (!returnValue.TryGetValue(strategies[i], out var resultOne)) { returnValue[strategies[i]] = 0; }
+                if (!returnValue.TryGetValue(strategies[j], out var resultTwo)) { returnValue[strategies[j]] = 0; }
+
+                var runResult = (strategies[i].Id != strategies[j].Id)
+                    ? runner.Go(strategies[i], strategies[j])
+                    : runner.EmptyResult(strategies[i], strategies[j]);
+
+                returnValue[strategies[i]] = returnValue[strategies[i]] + runResult.Results.Sum(r => r.StrategyOneScore);
+                returnValue[strategies[j]] = returnValue[strategies[j]] + runResult.Results.Sum(r => r.StrategyTwoScore);
+            }
+        }
+    
         return returnValue;
     }
 }

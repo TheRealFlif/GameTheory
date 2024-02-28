@@ -45,4 +45,34 @@ public class ArgsParserTest
         //Assert
         Assert.That(actual.Message, Is.EqualTo("Index was outside the bounds of the array."));
     }
+
+    [Test]
+    public void Parse_MissingAValue_ThrowsArgumentOutOfRangeException()
+    {
+        //Act
+        var actual = Assert.Throws<ArgumentOutOfRangeException>(() => ArgsParser.Parse("-nr 100 -rl 100 -r 2 -t 3 -s 0 -p -1".Split(" ")));
+
+        //Assert
+        Assert.That(actual.Message, Is.EqualTo("Specified argument was out of the range of valid values. (Parameter '-p')"));
+    }
+
+    [Test]
+    public void Parse_WithWrongType_ThrowsFormatException()
+    {
+        //Act
+        var actual = Assert.Throws<FormatException>(() => ArgsParser.Parse("-nr ten -rl 100 -r 2 -t 3 -s 0 -p -1".Split(" ")));
+
+        //Assert
+        Assert.That(actual.Message, Is.EqualTo("The input string 'ten' was not in a correct format."));
+    }
+
+    [Test]
+    public void Parse_WrongParameterName_ReturnsNull()
+    {
+        //Act
+        var actual = ArgsParser.Parse("-x 100 -rl 100 -r 2 -t 3 -s 0 -p -1".Split(" "));
+
+        //Assert
+        Assert.That(actual, Is.Null);
+    }
 }

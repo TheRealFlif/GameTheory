@@ -18,31 +18,31 @@ internal class ArgsParser
             switch(args[i].ToLower())
             {
                 case("-nr") :
-                    numberOfRuns = int.Parse(args[++i]);
+                    numberOfRuns = ParseInteger(args[++i], "-nr");
                     break;
 
                 case ("-rl"):
-                    lengthOfRun = int.Parse(args[++i]);
+                    lengthOfRun = ParseInteger(args[++i], "-rl");
                     break;
 
                 case ("-r"):
-                    reward = int.Parse(args[++i]);
+                    reward = ParseInteger(args[++i], "-r");
                     break;
 
                 case ("-t"):
-                    temptation = int.Parse(args[++i]);
+                    temptation = ParseInteger(args[++i], "-t");
                     break;
 
                 case ("-s"):
-                    suckersReward = int.Parse(args[++i]);
+                    suckersReward = ParseInteger(args[++i], "-s");
                     break;
 
                 case ("-p"):
-                    penalty = int.Parse(args[++i]);
+                    penalty = ParseInteger(args[++i], "-p");
                     break;
 
                 default:
-                    return null;
+                    return null; //Break with a return value of null -> show message if parameter not understood
             }
         }
         
@@ -54,6 +54,14 @@ internal class ArgsParser
                 temptation, 
                 suckersReward, 
                 penalty));
+    }
+
+    private static int ParseInteger(string value, string paramName)
+    {
+        int returnValue = int.Parse(value);
+        if(returnValue < 0) { throw new ArgumentOutOfRangeException(paramName); }
+
+        return returnValue;
     }
 
     public static string HelpMessage =>

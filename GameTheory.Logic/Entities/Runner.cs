@@ -31,4 +31,10 @@ internal class Runner
 
         return returnValue;
     }
+
+    internal RunResult EmptyResult(IStrategy strategyOne, IStrategy strategyTwo) => new RunResult(
+        new Run(
+            _settings,
+            strategyOne,
+            strategyTwo));
 }
