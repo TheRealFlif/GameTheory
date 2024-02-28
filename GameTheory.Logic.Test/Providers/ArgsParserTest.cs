@@ -30,7 +30,7 @@ public class ArgsParserTest
     {
         //Act
         var actual = ArgsParser.Parse("-nr 50 -rl 10".Split(" "));
-        var expected = new Settings(50, 10, RewardMatrix.Default);
+        var expected = new Settings(50, 10, 1, RewardMatrix.Default);
         
         //Assert
         Assert.That(actual, Is.EqualTo(expected));
@@ -74,5 +74,16 @@ public class ArgsParserTest
 
         //Assert
         Assert.That(actual, Is.Null);
+    }
+
+    [Test]
+    public void Parse_NumberOfStrategies3_ReturnsSettingsWithNumberOfStrategies3()
+    {
+        //Act
+        var actual = ArgsParser.Parse("-ns 3".Split(" "));
+        var expected = new Settings(Settings.Default.NumberOfRuns, Settings.Default.LengthOfRun, 3, RewardMatrix.Default);
+
+        //Assert
+        Assert.That(actual, Is.EqualTo(expected));
     }
 }

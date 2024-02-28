@@ -2,7 +2,7 @@
   "profiles": {
     "GameTheory.Console": {
       "commandName": "Project",
-      "commandLineArgs": "-nr 100 -rl 100 -r 2 -t 3 -s 0 -p 1"
+      "commandLineArgs": "-nr 100 -rl 100 -ns 3 -r 2 -t 3 -s 0 -p 1"
     }
   }
 }

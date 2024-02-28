@@ -1,5 +1,4 @@
 ﻿using GameTheory.Logic.Entities;
-using System.Reflection;
 
 namespace GameTheory.Logic.Providers;
 
@@ -12,16 +11,24 @@ internal class StrategyLoader
     /// <returns></returns>
     internal IStrategy[] Load(string assemblyName)
     {
+        return Load(assemblyName, Settings.Default);
+    }
+
+    internal IStrategy[] Load(string assemblyName, Settings settings)
+    {
         var types = System.Reflection.Assembly.Load(assemblyName)
             .GetTypes()
             .Where(t => t.IsSubclassOf(typeof(StrategyBase)));
 
-        IStrategy?[] returnValue = [];
+        List<IStrategy?> returnValue = [];
         try
         {
-            returnValue = types
-                .Select(y => y.GetConstructors().First().Invoke(new []{ y.Name}) as IStrategy)
-                .ToArray();
+            for (int i = 0; i < settings.NumberOfEachStrategyType; i++)
+            {
+                returnValue
+                    .AddRange(types
+                    .Select(y => y.GetConstructors().First().Invoke(new[] { y.Name }) as IStrategy));
+            }
         }
         catch
         {

@@ -7,7 +7,7 @@ internal class RunnerTest
     public void Go_RandomAndAlwaysCooperate_RandomAlwaysWinOrTies()
     {
         //Arrange
-        var settings = new Settings(10, 10, RewardMatrix.Default);
+        var settings = new Settings(10, 10, Settings.Default.NumberOfEachStrategyType, RewardMatrix.Default);
         var sut = new Runner(settings);
 
         //Act
@@ -21,7 +21,7 @@ internal class RunnerTest
     public void Go_AlwaysDefectAndAlwaysCooperate_DefectScores300AndCooperateScores0()
     {
         //Arrange
-        var settings = new Settings(10, 10, RewardMatrix.Default);
+        var settings = new Settings(10, 10, Settings.Default.NumberOfEachStrategyType, RewardMatrix.Default);
         var sut = new Runner(settings);
 
         //Act

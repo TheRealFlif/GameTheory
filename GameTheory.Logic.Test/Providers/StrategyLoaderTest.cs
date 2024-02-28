@@ -1,10 +1,12 @@
-﻿namespace GameTheory.Logic.Providers;
+﻿using GameTheory.Logic.Entities;
+
+namespace GameTheory.Logic.Providers;
 
 [TestFixture]
 internal class StrategyLoaderTest
 {
     [Test]
-    public void Load_Logic_Returns1Instance()
+    public void Load_Logic_ReturnsMoreThan1Instance()
     {
         //Arrange
         var sut = new StrategyLoader();
@@ -13,6 +15,19 @@ internal class StrategyLoaderTest
         var actual = sut.Load("GameTheory.Logic");
 
         //Assert
-        Assert.That(actual, Has.Length.Not.EqualTo(0));
+        Assert.That(actual, Has.Length.GreaterThan(1));
+    }
+
+    [Test]
+    public void Load_LogicAndSettings_Returns1Instance()
+    {
+        //Arrange
+        var sut = new StrategyLoader();
+        var settings = new Settings(10, 10, 10, RewardMatrix.Default);
+        //Act
+        var actual = sut.Load("GameTheory.Logic", settings);
+
+        //Assert
+        Assert.That(actual, Has.Length.GreaterThan(10));
     }
 }

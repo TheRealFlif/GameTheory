@@ -13,7 +13,7 @@ internal class Program
         var runner = new Runner(settings);
 
         var loader = new StrategyLoader();
-        var strategies = loader.Load("GameTheory.Logic");
+        var strategies = loader.Load("GameTheory.Logic", settings);
 
         var total = RunAllGameRounds(runner, strategies);
 

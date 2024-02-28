@@ -8,10 +8,12 @@ internal class ArgsParser
     {
         var numberOfRuns = Settings.Default.NumberOfRuns;
         var lengthOfRun = Settings.Default.LengthOfRun;
-        var reward = Settings.Default.RewardMatrix.Reward;
-        var temptation = Settings.Default.RewardMatrix.Temptation;
-        var suckersReward = Settings.Default.RewardMatrix.SuckerReward;
-        var penalty = Settings.Default.RewardMatrix.Penalty;
+        var numberOfEachStrategyType = Settings.Default.NumberOfEachStrategyType;
+        
+        var reward = RewardMatrix.Default.Reward;
+        var temptation = RewardMatrix.Default.Temptation;
+        var suckersReward = RewardMatrix.Default.SuckerReward;
+        var penalty = RewardMatrix.Default.Penalty;
 
         for (int i = 0; i<args.Length; i++)
         {
@@ -23,6 +25,10 @@ internal class ArgsParser
 
                 case ("-rl"):
                     lengthOfRun = ParseInteger(args[++i], "-rl");
+                    break;
+
+                case ("-ns"):
+                    numberOfEachStrategyType = ParseInteger(args[++i], "-ns");
                     break;
 
                 case ("-r"):
@@ -48,7 +54,8 @@ internal class ArgsParser
         
         return new Settings(
             numberOfRuns, 
-            lengthOfRun, 
+            lengthOfRun,
+            numberOfEachStrategyType,
             new RewardMatrix(
                 reward, 
                 temptation, 
