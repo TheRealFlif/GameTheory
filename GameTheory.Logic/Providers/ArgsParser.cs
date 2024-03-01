@@ -15,6 +15,8 @@ internal class ArgsParser
         var suckersReward = RewardMatrix.Default.SuckerReward;
         var penalty = RewardMatrix.Default.Penalty;
 
+        var strategySettings = new StrategySettings();
+
         for (int i = 0; i<args.Length; i++)
         {
             switch(args[i].ToLower())
@@ -31,6 +33,10 @@ internal class ArgsParser
                     numberOfEachStrategyType = ParseInteger(args[++i], "-ns");
                     break;
 
+                case ("-ss"):
+                    strategySettings = ParseStrategySettings(args[++i], "-ss");
+                    break;
+                
                 case ("-r"):
                     reward = ParseInteger(args[++i], "-r");
                     break;
@@ -51,22 +57,42 @@ internal class ArgsParser
                     return null; //Break with a return value of null -> show message if parameter not understood
             }
         }
-        
-        return new Settings(
-            numberOfRuns, 
+
+        var returnValue = new Settings(
+            numberOfRuns,
             lengthOfRun,
             numberOfEachStrategyType,
             new RewardMatrix(
-                reward, 
-                temptation, 
-                suckersReward, 
-                penalty));
+                reward,
+                temptation,
+                suckersReward,
+                penalty))
+            .AddStrategySettings(strategySettings);
+
+        return returnValue;
     }
 
     private static int ParseInteger(string value, string paramName)
     {
         int returnValue = int.Parse(value);
         if(returnValue < 0) { throw new ArgumentOutOfRangeException(paramName); }
+
+        return returnValue;
+    }
+
+    private static StrategySettings ParseStrategySettings(string stringValue, string paramName)
+    {
+        var returnValue = new StrategySettings();
+        var strings = stringValue.Split(",");
+        foreach(var strategyPart in strings)
+        {
+            var strategyParts = strategyPart.Split(":");
+            var strategyNames = strategyParts[0].Split(".");
+            var name = strategyNames[strategyNames.Length - 1];
+            var numberOfStrategies = strategyParts.Length > 1 ? ParseInteger(strategyParts[1], paramName) : 1;
+            var setting = new StrategySetting(name, strategyParts[0], numberOfStrategies);
+            returnValue.Add(setting);
+        }
 
         return returnValue;
     }

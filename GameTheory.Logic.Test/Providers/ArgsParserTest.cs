@@ -86,4 +86,34 @@ public class ArgsParserTest
         //Assert
         Assert.That(actual, Is.EqualTo(expected));
     }
+
+    [Test]
+    public void Parse_SpecifyingStrategies_()
+    {
+        //Act
+        var actual = ArgsParser.Parse("-ss GameTheory.Logic.Entities.RandomStrategy:3".Split(" "));
+
+        //Assert
+        Assert.That(actual!.StrategySettings.First(), 
+            Is.EqualTo(new StrategySetting(
+                "RandomStrategy", 
+                "GameTheory.Logic.Entities.RandomStrategy", 
+                3))
+            );
+    }
+
+    [Test]
+    public void Parse_SpecifyingStrategiesWithoutNumberOfStrategies_Returns1AsSNumberOfStrategies()
+    {
+        //Act
+        var actual = ArgsParser.Parse("-ss GameTheory.Logic.Entities.RandomStrategy".Split(" "));
+
+        //Assert
+        Assert.That(actual!.StrategySettings.First(),
+            Is.EqualTo(new StrategySetting(
+                "RandomStrategy",
+                "GameTheory.Logic.Entities.RandomStrategy",
+                1))
+            );
+    }
 }

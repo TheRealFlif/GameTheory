@@ -2,11 +2,9 @@
 
 using GameTheory.Logic.Entities;
 using GameTheory.Logic.Providers;
-using System.Text;
 
 internal class Program
 {
-
     static void Main(string[] args)
     {
         var settings = ParseArguments(args);
@@ -63,7 +61,7 @@ internal class Program
                 returnValue[strategies[j]] = returnValue[strategies[j]] + runResult.Results.Sum(r => r.StrategyTwoScore);
             }
         }
-    
+
         return returnValue;
     }
 }

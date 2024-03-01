@@ -1,9 +1,11 @@
-﻿namespace GameTheory.Logic.Entities;
+﻿using System.Collections;
+
+namespace GameTheory.Logic.Entities;
 
 internal class Settings(
-    int numberOfRuns, 
-    int lengthOfRun, 
-    int numberOfEachStrategyType, 
+    int numberOfRuns,
+    int lengthOfRun,
+    int numberOfEachStrategyType,
     RewardMatrix rewardMatrix)
 {
     public int NumberOfRuns { get; init; } = numberOfRuns;
@@ -11,7 +13,19 @@ internal class Settings(
     public int NumberOfEachStrategyType { get; init; } = numberOfEachStrategyType;
 
     public RewardMatrix RewardMatrix { get; init; } = rewardMatrix;
-   
+    
+    internal StrategySettings StrategySettings { get; init; } = new();
+
+    internal Settings AddStrategySettings(StrategySettings strategySettings)
+    {
+        foreach(var strategySetting in strategySettings)
+        {
+            StrategySettings.Add(strategySetting);
+        }
+
+        return this;
+    }
+
     public override string ToString()
     {
         return $"Runs: {NumberOfRuns} of {LengthOfRun} rounds each with {NumberOfEachStrategyType} of each strategy. {RewardMatrix}";
@@ -28,12 +42,15 @@ internal class Settings(
     public override int GetHashCode()
     {
         return HashCode.Combine(
-            NumberOfRuns, 
-            LengthOfRun, 
-            NumberOfEachStrategyType, 
-            RewardMatrix);
+            NumberOfRuns,
+            LengthOfRun,
+            NumberOfEachStrategyType,
+            RewardMatrix,
+            StrategySettings);
     }
 
-    private static readonly Settings _default = new (100, 100, 1, RewardMatrix.Default);
+    private static readonly Settings _default = new(100, 100, 1, RewardMatrix.Default);
     internal static Settings Default => _default;
+
+    
 }
