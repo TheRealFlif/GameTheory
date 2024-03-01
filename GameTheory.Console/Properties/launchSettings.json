@@ -2,7 +2,7 @@
   "profiles": {
     "GameTheory.Console": {
       "commandName": "Project",
-      "commandLineArgs": "-nr 100 -rl 100 -ss GameTheory.Logic.Entities.RandomStrategy:1,GameTheory.Logic.Entities.AlwaysCooperateStrategy:10,GameTheory.Logic.Entities.AlwaysDefectStrategy:1 -r 2 -t 3 -s 0 -p 1"
+      "commandLineArgs": "-nr 100 -rl 100 -ss GameTheory.Logic.Entities.TitForTatStrategy:5,GameTheory.Logic.Entities.RandomStrategy:1,GameTheory.Logic.Entities.AlwaysDefectStrategy:1 -r 2 -t 3 -s 0 -p 1"
     }
   }
 }
